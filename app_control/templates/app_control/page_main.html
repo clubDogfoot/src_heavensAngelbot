@@ -1,10 +1,269 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
     <head>
+        <title>Havens</title>
         <meta charset="UTF-8">
-        <title>app_control</title>
+        <meta name="dogfootclub" content="Robot Polytech robotIT">
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+        <link href="../../static/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="../../static/image_dreg_choose_prohibition.css" rel="stylesheet" type="text/css">
+        <link href="../../static/arrow_circle.css" rel="stylesheet" type="text/css">
+        <!-- <link href="app_control/static/bootstrap.min.css" rel="stylesheet" type="text/css"> -->
+        <!-- <link href="app_control/static/image_dreg_choose_prohibition.css" rel="stylesheet" type="text/css">
+        <link href="app_control/static/arrow_circle.css" rel="stylesheet" type="text/css"> -->
+        
+        
+
+        <style>
+            #container div {float:left}
+          .focus {position:fixed; border:1px solid red; background-color:rgb(128, 0, 0, 0.3);}
+          .highlight {border-radius:50%; outline:thick solid green;} 
+
+        </style>
+
+
+        <script>
+            function action_coords(event) {
+            var x = event.offsetX;
+            var y = event.offsetY;
+            var coords = "offsetX: " + x + ", offsetY: " + y + "<br/>";
+            
+            document.getElementById("current_coordinates").innerHTML = coords;
+            }
+
+            function action_click_coords(event) {
+            var x = event.offsetX;
+            var y = event.offsetY;
+            var coords = "offsetX: " + x + ", offsetY: " + y + "<br/>";
+            
+            document.getElementById("current_click_coordinates").innerHTML = coords;
+            }
+            
+            function outline_circle_1(){
+                document.getElementById("arrow1").style.outline="thick solid green";
+                document.getElementById("arrow2").style.outline="none";
+                document.getElementById("arrow3").style.outline="none";
+            }
+
+            function outline_circle_2(){
+                document.getElementById("arrow2").style.outline="thick solid green";
+                document.getElementById("arrow1").style.outline="none";
+                document.getElementById("arrow3").style.outline="none";
+            }
+
+            function outline_circle_3(){
+                document.getElementById("arrow3").style.outline="thick solid green";
+                document.getElementById("arrow1").style.outline="none";
+                document.getElementById("arrow2").style.outline="none";
+            }
+
+            function outline_eliminate(){
+                document.getElementById("arrow1").style.outline="none";
+                document.getElementById("arrow2").style.outline="none";
+                document.getElementById("arrow3").style.outline="none";
+            }
+
+        
+
+        </script>
+
+
     </head>
+
     <body>
-        <h1>app_control</h1>
+        <div class="my-3">  
+            <div class="row">
+                <div class="col-md-8 col-lg-1"></div>
+                <div class="col-md-8 col-lg-8">
+                    <div class="mb-4">
+                        <div id="container" style="position: relative;">     
+                                <img id = "main_map"  src="../../static/map_main.png" width="1150px" height="365px" onmousemove="action_coords(event)" onauxclick="action_click_coords(event)" onclick="outline_eliminate()"></img>
+                                <div style="position: absolute; top: 200px; left: 600px;">
+                                    <img id = "arrow1" src="../../static/arrow.png" class="imagecircle" width="50px" oncontextmenu='return false' onclick="outline_circle_1()" style="transform:rotate(90deg);"></img></div>
+                                <div style="position: absolute; top: 100px; left: 800px;">
+                                    <img id = "arrow2" src="../../static/arrow.png" class="imagecircle" width="50px" oncontextmenu='return false' onclick="outline_circle_2()" style="transform:rotate(45deg);"></img></div>
+                                <div style="position: absolute; top: 300px; left: 300px;">
+                                    <img id = "arrow3" src="../../static/arrow.png" class="imagecircle" width="50px" oncontextmenu='return false' onclick="outline_circle_3()" style="transform:rotate(30deg);"></img></div>
+                
+                            <div class="focus"></div>
+                        </div>
+                    </div>
+                        
+
+                    <div class="row">   
+                        <div class="col-sm col-lg-2">
+                            <p>마우스 좌표값</p>
+                            <div id="current_coordinates" style="margin:1px;width:185px;height:30px;border:1px solid rgb(14, 14, 14);cursor:pointer;" ></div>
+                        </div>
+                
+                        <div class="col-sm col-lg-2">
+                            <p>현재클릭한 좌표값</p>
+                            <div id="current_click_coordinates" style="margin:1px;width:185px;height:30px;border:1px solid rgb(14, 14, 14);cursor:pointer;"></div>
+                        </div>
+                            
+                        
+                        <div class="col-sm col-lg-2">
+                            <div type="button" data-toggle="modal" data-target="#robot_add" style="display: flex; justify-content: center; margin-top: 10px;">
+                                <button style="width: 100px; height: 50px;">로봇 추가</button>
+                            </div>
+                            
+                        </div>
+
+                        <div class="col-sm col-lg-2">
+                            <div style="display: flex; justify-content: center; margin-top: 10px;">
+                                <button style="width: 100px; height: 50px;" onclick="">버튼B</button>
+                            </div>
+                        </div>
+
+                        <div class="col-sm col-lg-2">
+                            <div style="display: flex; justify-content: center; margin-top: 10px;">
+                                <button style="width: 100px; height: 50px;" onclick="">버튼C</button>
+                            </div>
+                        </div>
+
+                        <div class="col-sm col-lg-2">
+                            <div style="display: flex; justify-content: center; margin-top: 10px;">
+                                <button style="width: 100px; height: 50px;" onclick="">버튼D</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                    <div class="body">
+                        <div class="small text-muted h2">상태창</div>
+                            <h2 class="title h3">선택된 로봇이름</h2>
+                                <div class="row">
+                                    <div class="col-sm col-lg-3">
+                                        <img src="../../static/angle.jpg" width="250px" height="150px"></a>
+                                    </div>
+
+                                    <div class="col-sm col-lg-6">
+                                        <p class="text">현재위치</p>
+                                        <p class="text">입렫된 명령</p>
+                                        <p class="text">베터리잔량</p>
+                                    
+                                    </div>
+                                
+                                </div>
+                    </div>
+                        
+                </div>
+                <div class="col-md-8 col-lg-3"></div>
+            </div>
+        </div>
+    
+        <script>
+
+            var $container = $("#container");
+
+            
+            $.fn.customContextMenu = function (callBack) {
+            $(this).bind("contextmenu", function (e) {
+            e.preventDefault();
+            callBack();
+            });
+            }
+            $("#main_map").customContextMenu(function () {
+            });
+
+            
+            (function() {
+                var target = '#container div';  
+                var mode = false;
+                var startX = 0;
+                var startY = 0;
+                var left, top, width, height;
+                var $focus = $(".focus");
+                $(document).on("mousedown", function(e) {
+                    mode = true;
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    width = height = 0;
+                    $focus.show();
+                    rangeSelect(target, 0, 0, 0, 0, function() {  
+                    $(this).removeClass('highlight');
+                    });
+                }).on('mouseup', function(e) {            
+                    mode = false;
+                    $focus.hide();
+                    $focus.css("width", 0);
+                    $focus.css('height', 0);
+                
+                    rangeSelect(target, left, top, left + width, top + height, function(include) {
+                    if(include)
+                        
+                        $(this).addClass('highlight');
+                    else
+                        
+                        $(this).removeClass('highlight');
+                    });
+                    }).on('mousemove', function(e) {
+                    if(!mode) {
+                    return;
+                    }
+                    var x = e.clientX;
+                    var y = e.clientY;
+                
+                    width = Math.max(x - startX, startX - x);
+                    left = Math.min(startX, x);
+                    $focus.css('left', left);
+                    $focus.css("width", width);
+                    height = Math.max(y - startY, startY - y);
+                    top = Math.min(startY, y);
+                    $focus.css('top', top);
+                    $focus.css('height', height);
+                    });
+                function rangeSelect(selector, x1, y1, x2, y2, cb) {
+                    $(selector).each(function() {
+                    var $this = $(this);
+                    var offset = $this.offset();
+                    var x = offset.left;
+                    var y = offset.top;
+                    var w = $this.width();
+                    var h = $this.height();
+                    
+                
+                    cb.call(this, x >= x1 && y >= y1 && x + w <= x2 && y + h <= y2);        
+                    });
+                    }
+            })();
+
+        </script>
+
+        <div class="modal fade" id="robot_add" tabindex="-1" role="dialog" aria-labelledby="robots_add_modallabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="robots_add_modallabel">로봇 추가</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            ROBOT NAME &nbsp:&nbsp&nbsp<input type="text" name="robot_name" size="30">
+                            <p></p>
+                            ROBOT TYPE&nbsp&nbsp&nbsp :&nbsp&nbsp<input type="text" name="robot_type" size="30">
+                            <p></p>
+                            ROBOT 좌표&nbsp&nbsp&nbsp&nbsp :&nbsp&nbsp<input type="text" name="robot_coordinates1" size="30" value="None">
+                            </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal">나가기</button>
+                        <button type="button" >로봇 추가하기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+
     </body>
+
+
 </html>
